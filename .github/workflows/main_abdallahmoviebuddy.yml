@@ -39,12 +39,6 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Initial create
-        run: dotnet ef migrations add InitialCreate
-
-      - name: Database update
-        run: dotnet ef database update
-
 
   deploy:
     runs-on: ubuntu-latest
@@ -75,4 +69,10 @@ jobs:
           app-name: 'AbdallahMovieBuddy'
           slot-name: 'Production'
           package: .
+
+      - name: Initial create
+        run: dotnet ef migrations add InitialCreate
+
+      - name: Database update
+        run: dotnet ef database update
           
