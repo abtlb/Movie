@@ -4,21 +4,28 @@ using MvcMovie.Data;
 using MvcMovie.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-if (!builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<MvcMovieContext>(options =>
+//if (!builder.Environment.IsDevelopment())
+//{
+//    builder.Services.AddDbContext<MvcMovieContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+//    builder.Services.AddStackExchangeRedisCache(options =>
+//    {
+//        options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
+//        options.InstanceName = "SampleInstance";
+//    });
+//}
+//else
+//{
+//    builder.Services.AddDbContext<MvcMovieContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext") ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
+//}
+builder.Services.AddDbContext<MvcMovieContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
-    builder.Services.AddStackExchangeRedisCache(options =>
-    {
-        options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
-        options.InstanceName = "SampleInstance";
-    });
-}
-else
+builder.Services.AddStackExchangeRedisCache(options =>
 {
-    builder.Services.AddDbContext<MvcMovieContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext") ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
-}
+    options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
+    options.InstanceName = "SampleInstance";
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
